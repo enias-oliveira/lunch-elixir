@@ -9,15 +9,15 @@ import Config
 
 config :lunch,
   ecto_repos: [Lunch.Repo],
-  event_stores: [Lunch.EventStore]
+  event_stores: [Lunch.Core.EventStore]
 
-config :lunch, Lunch.App,
+config :lunch, Lunch.Core.Application,
   event_store: [
     adapter: Commanded.EventStore.Adapters.EventStore,
-    event_store: Lunch.EventStore
+    event_store: Lunch.Core.EventStore
   ]
 
-config :lunch, Lunch.EventStore, serializer: Commanded.Serialization.JsonSerializer
+config :lunch, Lunch.Core.EventStore, serializer: Commanded.Serialization.JsonSerializer
 
 # Configures the endpoint
 config :lunch, LunchWeb.Endpoint,

@@ -1,3 +1,3 @@
-defmodule Lunch.EventStore do
+defmodule Lunch.Core.EventStore do
   use EventStore, otp_app: :lunch
 end

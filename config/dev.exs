@@ -66,7 +66,7 @@ config :phoenix, :stacktrace_depth, 20
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
 
-config :lunch, Lunch.EventStore,
+config :lunch, Lunch.Core.EventStore,
   url:
     "postgresql://postgres:LnvBlLP4EdcbnPkk7xJW@containers-us-west-149.railway.app:7098/railway",
   pool_size: 10

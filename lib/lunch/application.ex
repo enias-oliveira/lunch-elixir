@@ -16,7 +16,7 @@ defmodule Lunch.Application do
   def start(_type, _args) do
     children = [
       # Start Commanded application
-      Lunch.App,
+      Lunch.Core.Application,
 
       # Start the Ecto repository
       Lunch.Repo,
