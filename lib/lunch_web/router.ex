@@ -57,9 +57,12 @@ defmodule LunchWeb.Router do
   # node running the Phoenix server.
   if Mix.env() == :dev do
     scope "/dev" do
-      pipe_through :browser
+      pipe_through :api
 
-      forward "/mailbox", Plug.Swoosh.MailboxPreview
+      forward "/graphiql", Absinthe.Plug.GraphiQL,
+        schema: LunchWeb.Schema,
+        interface: :simple,
+        context: %{pubsub: LunchWeb.Endpoint}
     end
   end
 end

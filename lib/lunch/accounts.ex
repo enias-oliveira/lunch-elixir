@@ -20,9 +20,7 @@ defmodule Lunch.Accounts do
       [%User{}, ...]
 
   """
-  def list_users do
-    Repo.all(User)
-  end
+  def list_users, do: {:ok, Repo.all(User)}
 
   @doc """
   Gets a single user.
@@ -63,7 +61,8 @@ defmodule Lunch.Accounts do
          %User{} = user <- Repo.get(User, uuid) do
       {:ok, user}
     else
-      nil -> {:error, :not_found}
+      err ->
+        {:error, err}
     end
   end
 
