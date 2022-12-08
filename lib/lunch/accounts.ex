@@ -3,10 +3,16 @@ defmodule Lunch.Accounts do
   The Accounts context.
   """
 
+  require Logger
+
   import Ecto.Query, warn: false
   alias Lunch.Repo
 
   alias Lunch.Accounts.User
+
+  alias Lunch.Accounts.Commands.{RegisterUser}
+
+  alias Lunch.Core
 
   @doc """
   Returns the list of users.
@@ -50,9 +56,11 @@ defmodule Lunch.Accounts do
 
   """
   def create_user(attrs \\ %{}) do
-    %User{}
-    |> User.changeset(attrs)
-    |> Repo.insert()
+    new_user = Map.put(attrs, :uuid, Ecto.UUID.generate())
+
+    Logger.debug("New User: #{inspect(new_user)}")
+
+    new_user |> RegisterUser.new() |> Core.Application.dispatch()
   end
 
   @doc """
