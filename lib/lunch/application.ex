@@ -5,6 +5,13 @@ defmodule Lunch.Application do
 
   use Application
 
+  use Commanded.Application,
+    otp_app: :lunch,
+    event_store: [
+      adapter: Commanded.EventStore.Adapters.EventStore,
+      event_store: Lunch.EventStore
+    ]
+
   @impl true
   def start(_type, _args) do
     children = [

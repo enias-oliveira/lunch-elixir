@@ -1,11 +1,14 @@
 import Config
 
+# TODO: Replace Railway with local (Nix) Postgres
+
 # Configure your database
 config :lunch, Lunch.Repo,
   username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
-  database: "lunch_dev",
+  password: "1q1tpk9Pc4NW1SwUHzvu",
+  hostname: "containers-us-west-135.railway.app",
+  database: "railway",
+  port: "5601",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
@@ -72,3 +75,12 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
+
+config :lunch, Lunch.EventStore,
+  serializer: Commanded.Serialization.JsonSerializer,
+  username: "postgres",
+  password: "mIWHgCWwnWBwGIMJOqE9",
+  hostname: "containers-us-west-153.railway.app",
+  database: "railway",
+  port: "6525",
+  pool_size: 10
