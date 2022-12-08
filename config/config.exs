@@ -8,7 +8,16 @@
 import Config
 
 config :lunch,
-  ecto_repos: [Lunch.Repo]
+  ecto_repos: [Lunch.Repo],
+  event_stores: [Lunch.EventStore]
+
+config :lunch, Lunch.App,
+  event_store: [
+    adapter: Commanded.EventStore.Adapters.EventStore,
+    event_store: Lunch.EventStore
+  ]
+
+config :lunch, Lunch.EventStore, serializer: Commanded.Serialization.JsonSerializer
 
 # Configures the endpoint
 config :lunch, LunchWeb.Endpoint,
@@ -47,7 +56,7 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-config :lunch, event_stores: [Lunch.EventStore]
+config :commanded, event_store_adapter: Commanded.EventStore.Adapters.EventStore
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

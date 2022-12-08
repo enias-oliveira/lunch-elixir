@@ -15,6 +15,9 @@ defmodule Lunch.Application do
   @impl true
   def start(_type, _args) do
     children = [
+      # Start Commanded application
+      Lunch.App,
+
       # Start the Ecto repository
       Lunch.Repo,
       # Start the Telemetry supervisor
