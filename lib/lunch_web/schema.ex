@@ -15,4 +15,14 @@ defmodule LunchWeb.Schema do
       resolve(&UsersResolver.get_all/3)
     end
   end
+
+  mutation do
+    @desc "Create a user"
+    field :create_user, :user do
+      arg(:name, non_null(:string))
+      arg(:age, non_null(:integer))
+
+      resolve(&UsersResolver.create/3)
+    end
+  end
 end
