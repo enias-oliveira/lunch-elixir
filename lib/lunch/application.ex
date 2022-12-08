@@ -25,9 +25,12 @@ defmodule Lunch.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Lunch.PubSub},
       # Start the Endpoint (http/https)
-      LunchWeb.Endpoint
+      LunchWeb.Endpoint,
       # Start a worker by calling: Lunch.Worker.start_link(arg)
       # {Lunch.Worker, arg}
+
+      # Start Accounts Projector
+      Lunch.Accounts.Projectors.User
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

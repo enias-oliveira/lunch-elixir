@@ -2,9 +2,6 @@ defmodule Lunch.Accounts do
   @moduledoc """
   The Accounts context.
   """
-
-  require Logger
-
   import Ecto.Query, warn: false
   alias Lunch.Repo
 
@@ -41,7 +38,7 @@ defmodule Lunch.Accounts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_user!(id), do: Repo.get!(User, id)
+  def get_user!(uuid), do: Repo.get!(User, uuid)
 
   @doc """
   Creates a user.
@@ -51,16 +48,23 @@ defmodule Lunch.Accounts do
       iex> create_user(%{field: value})
       {:ok, %User{}}
 
-      iex> create_user(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
+      iex> create_user(%{field: value}) // Create Command executed but failed to find created user
+      {:error, :not_found}
 
   """
   def create_user(attrs \\ %{}) do
-    new_user = Map.put(attrs, :uuid, Ecto.UUID.generate())
+    uuid = Ecto.UUID.generate()
 
-    Logger.debug("New User: #{inspect(new_user)}")
-
-    new_user |> RegisterUser.new() |> Core.Application.dispatch()
+    with :ok <-
+           attrs
+           |> Map.put(:uuid, uuid)
+           |> RegisterUser.new()
+           |> Core.Application.dispatch(consistency: :strong),
+         %User{} = user <- Repo.get(User, uuid) do
+      {:ok, user}
+    else
+      nil -> {:error, :not_found}
+    end
   end
 
   @doc """
