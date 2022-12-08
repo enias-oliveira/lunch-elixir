@@ -74,5 +74,5 @@ config :lunch, Lunch.Core.EventStore,
 # Configure read database
 config :lunch, Lunch.Repo,
   url:
-    "postgresql://postgres:xnu9wwCRlF4DEGR30vwK@containers-us-west-53.railway.app:7533/railway",
+    "postgresql://postgres:wuNdWfq5tIVhUgOyM98O@containers-us-west-154.railway.app:5872/railway",
   pool_size: 10
