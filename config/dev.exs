@@ -68,7 +68,7 @@ config :phoenix, :plug_init_mode, :runtime
 
 config :lunch, Lunch.Core.EventStore,
   url:
-    "postgresql://postgres:LnvBlLP4EdcbnPkk7xJW@containers-us-west-149.railway.app:7098/railway",
+    "postgresql://postgres:u8uuEqnUGeu8SgCGDwDm@containers-us-west-135.railway.app:5947/railway",
   pool_size: 10
 
 # Configure read database
