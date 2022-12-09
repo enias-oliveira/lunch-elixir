@@ -3,6 +3,7 @@ defmodule LunchWeb.Schema do
 
   alias LunchWeb.Resolvers.UsersResolver
   alias Lunch.Accounts
+  alias LunchWeb.Resolvers.Product, as: ProductResolver
 
   import Absinthe.Resolution.Helpers, only: [dataloader: 1]
 
@@ -31,6 +32,12 @@ defmodule LunchWeb.Schema do
     end
   end
 
+  object :product do
+    field :id, non_null(:id)
+    field :name, :string
+    field :price, :float
+  end
+
   query do
     @desc "Get all users"
     field :all_users, list_of(:user) do
@@ -45,6 +52,14 @@ defmodule LunchWeb.Schema do
       arg(:age, non_null(:integer))
 
       resolve(&UsersResolver.create/3)
+    end
+
+    @desc "Creates an product"
+    field :create_product, :product do
+      arg(:name, non_null(:string))
+      arg(:price, non_null(:integer))
+
+      resolve(&ProductResolver.create/3)
     end
   end
 end
