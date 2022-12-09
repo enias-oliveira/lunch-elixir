@@ -2,8 +2,7 @@ defmodule Lunch.Repo.Migrations.CreateUsers do
   use Ecto.Migration
 
   def change do
-    create table(:users, primary_key: false) do
-      add :uuid, :uuid, primary_key: true
+    create table(:users) do
       add :name, :string
       add :age, :integer
 
