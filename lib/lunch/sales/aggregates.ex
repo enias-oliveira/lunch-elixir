@@ -1,8 +1,8 @@
 defmodule Lunch.Sales.Aggregates do
   defmodule Order do
     defstruct [
-      :uuid,
-      :customer_uuid
+      :id,
+      :customer_id
     ]
 
     alias Lunch.Sales.Commands.CreateOrder
@@ -10,15 +10,15 @@ defmodule Lunch.Sales.Aggregates do
 
     def execute(%Order{}, %CreateOrder{} = command) do
       %OrderCreated{
-        uuid: command.uuid,
-        customer_uuid: command.customer_uuid
+        id: command.id,
+        customer_id: command.customer_id
       }
     end
 
     def apply(%Order{}, %OrderCreated{} = event) do
       %Order{
-        uuid: event.uuid,
-        customer_uuid: event.customer_uuid
+        id: event.id,
+        customer_id: event.customer_id
       }
     end
   end

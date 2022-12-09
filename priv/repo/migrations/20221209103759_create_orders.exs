@@ -3,11 +3,11 @@ defmodule Lunch.Repo.Migrations.CreateOrders do
 
   def change do
     create table(:orders) do
-      add :user_uuid, references(:users, on_delete: :nothing)
+      add :user_id, references(:users)
 
       timestamps()
     end
 
-    create index(:orders, [:user_uuid])
+    create unique_index(:orders, [:user_id])
   end
 end

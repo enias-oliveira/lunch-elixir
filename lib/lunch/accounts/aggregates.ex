@@ -1,7 +1,7 @@
 defmodule Lunch.Accounts.Aggregates do
   defmodule User do
     defstruct [
-      :uuid,
+      :id,
       :name,
       :age
     ]
@@ -12,9 +12,9 @@ defmodule Lunch.Accounts.Aggregates do
     @doc """
     Register a new user.
     """
-    def execute(%User{uuid: nil}, %RegisterUser{} = register_command) do
+    def execute(%User{id: nil}, %RegisterUser{} = register_command) do
       %UserRegistered{
-        uuid: register_command.uuid,
+        id: register_command.id,
         name: register_command.name,
         age: register_command.age
       }
@@ -22,7 +22,7 @@ defmodule Lunch.Accounts.Aggregates do
 
     def apply(%User{} = _user, %UserRegistered{} = registered_user) do
       %User{
-        uuid: registered_user.uuid,
+        id: registered_user.id,
         name: registered_user.name,
         age: registered_user.age
       }

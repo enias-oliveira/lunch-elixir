@@ -10,7 +10,7 @@ defmodule Lunch.Accounts.Projectors.User do
 
   project(%UserRegistered{} = registered_user, fn multi ->
     Ecto.Multi.insert(multi, :user, %UserSchema{
-      uuid: registered_user.uuid,
+      id: registered_user.id,
       name: registered_user.name,
       age: registered_user.age
     })

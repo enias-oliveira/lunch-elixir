@@ -2,8 +2,8 @@ defmodule Lunch.Sales.Events do
   defmodule OrderCreated do
     @derive Jason.Encoder
     defstruct [
-      :uuid,
-      :customer_uuid
+      :id,
+      :customer_id
     ]
   end
 end

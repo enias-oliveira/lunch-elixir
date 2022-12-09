@@ -4,14 +4,14 @@ defmodule Lunch.Accounts.User do
 
   alias Lunch.Sales
 
-  @primary_key {:uuid, :binary_id, autogenerate: false}
+  @primary_key {:id, :binary_id, autogenerate: false}
   @foreign_key_type :binary_id
 
   schema "users" do
     field :age, :integer
     field :name, :string
 
-    has_many :orders, Sales.Order, foreign_key: :user_uuid
+    has_many :orders, Sales.Order
 
     timestamps()
   end

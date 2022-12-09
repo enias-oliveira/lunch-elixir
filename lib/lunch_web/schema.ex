@@ -17,14 +17,14 @@ defmodule LunchWeb.Schema do
   end
 
   object :user do
-    field :uuid, non_null(:id)
+    field :id, non_null(:id)
     field :name, :string
     field :age, :integer
     field :orders, list_of(:order), resolve: dataloader(Accounts.Queries)
   end
 
   object :order do
-    field :uuid, non_null(:id)
+    field :id, non_null(:id)
 
     field :customer, :user do
       resolve(dataloader(Accounts.Queries))

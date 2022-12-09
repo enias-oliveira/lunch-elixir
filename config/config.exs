@@ -19,8 +19,8 @@ config :lunch, Lunch.Core.Application,
 
 config :lunch, Lunch.Core.EventStore, serializer: Commanded.Serialization.JsonSerializer
 
-config :lunch, Lunch.Repo, migration_primary_key: [name: :uuid, type: :binary_id]
-config :lunch, Lunch.Repo, migration_foreign_key: [column: :uuid, type: :binary_id]
+config :lunch, Lunch.Repo, migration_primary_key: [type: :binary_id]
+config :lunch, Lunch.Repo, migration_foreign_key: [type: :binary_id]
 
 # Configures the endpoint
 config :lunch, LunchWeb.Endpoint,

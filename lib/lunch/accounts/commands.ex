@@ -1,7 +1,7 @@
 defmodule Lunch.Accounts.Commands do
   defmodule RegisterUser do
     defstruct [
-      :uuid,
+      :id,
       :name,
       :age
     ]

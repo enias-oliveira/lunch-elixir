@@ -58,16 +58,16 @@ defmodule Lunch.Sales do
 
   """
   def create_order(attrs \\ %{}) do
-    order = CreateOrder.new(Map.put(attrs, :uuid, Ecto.UUID.generate()))
+    order = CreateOrder.new(Map.put(attrs, :id, Ecto.UUID.generate()))
 
     dispatch_order = fn ->
       order
       |> Core.Application.dispatch(consistency: :strong)
     end
 
-    with %Accounts.User{} <- Repo.get(User, order.customer_uuid),
+    with %Accounts.User{} <- Repo.get(User, order.customer_id),
          :ok <- dispatch_order.(),
-         %Order{} = order <- Repo.get(Order, order.uuid) do
+         %Order{} = order <- Repo.get(Order, order.id) do
       {:ok, order}
     else
       err ->

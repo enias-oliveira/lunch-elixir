@@ -2,7 +2,7 @@ defmodule Lunch.Accounts.Events do
   defmodule UserRegistered do
     @derive Jason.Encoder
     defstruct [
-      :uuid,
+      :id,
       :name,
       :age
     ]

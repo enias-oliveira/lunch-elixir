@@ -7,8 +7,8 @@ defmodule Lunch.Core.Router do
   alias Lunch.Sales.Aggregates.Order
   alias Lunch.Sales.Commands.CreateOrder
 
-  identify(User, by: :uuid, prefix: "user-")
-  identify(Order, by: :uuid, prefix: "order-")
+  identify(User, by: :id, prefix: "user-")
+  identify(Order, by: :id, prefix: "order-")
 
   dispatch(RegisterUser, to: User)
   dispatch(CreateOrder, to: Order)

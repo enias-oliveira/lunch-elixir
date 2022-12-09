@@ -55,7 +55,7 @@ defmodule Lunch.Accounts do
 
     with :ok <-
            attrs
-           |> Map.put(:uuid, uuid)
+           |> Map.put(:id, uuid)
            |> RegisterUser.new()
            |> Core.Application.dispatch(consistency: :strong),
          %User{} = user <- Repo.get(User, uuid) do
