@@ -32,9 +32,8 @@ defmodule Lunch.Application do
       # Start Accounts Projector
       Lunch.Accounts.Projectors.User,
 
-      # Start Sales Projector
-      Lunch.Sales.Projectors.Order,
-      Lunch.Sales.Projectors.Product
+      # Start Sales Supervisor
+      Lunch.Sales.Supervisor
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
