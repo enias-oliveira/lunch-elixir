@@ -1,6 +1,6 @@
 defmodule Lunch.Sales.Commands do
   defmodule CreateOrder do
-    defstruct [:id, :customer_id]
+    defstruct [:id, :customer_id, :products_ids]
 
     use ExConstructor
   end

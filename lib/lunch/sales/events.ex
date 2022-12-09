@@ -3,7 +3,8 @@ defmodule Lunch.Sales.Events do
     @derive Jason.Encoder
     defstruct [
       :id,
-      :customer_id
+      :customer_id,
+      :products_ids
     ]
   end
 

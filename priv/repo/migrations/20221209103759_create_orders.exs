@@ -7,7 +7,5 @@ defmodule Lunch.Repo.Migrations.CreateOrders do
 
       timestamps()
     end
-
-    create unique_index(:orders, [:user_id])
   end
 end

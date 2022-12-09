@@ -66,12 +66,16 @@ defmodule Lunch.Sales do
     end
 
     with %Accounts.User{} <- Repo.get(User, order.customer_id),
+         {:is_products, true} <- {:is_products, all_products_exist(order.products_ids)},
          :ok <- dispatch_order.(),
          %Order{} = order <- Repo.get(Order, order.id) do
       {:ok, order}
     else
       err ->
         {:error, err}
+
+      {:is_products, _} ->
+        {:error, :products_not_found}
     end
   end
 
@@ -227,5 +231,12 @@ defmodule Lunch.Sales do
   """
   def change_product(%Product{} = product, attrs \\ %{}) do
     Product.changeset(product, attrs)
+  end
+
+  defp all_products_exist(ids) do
+    query = from p in Product, where: p.id in ^ids, select: p.id
+    existing_ids = Repo.all(query) |> MapSet.new()
+
+    ids |> MapSet.new() |> MapSet.subset?(existing_ids)
   end
 end

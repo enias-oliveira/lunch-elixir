@@ -2,13 +2,13 @@ defmodule LunchWeb.Schema do
   use Absinthe.Schema
 
   alias LunchWeb.Resolvers.UsersResolver
-  alias Lunch.Accounts
   alias LunchWeb.Resolvers.Product, as: ProductResolver
+  alias LunchWeb.Resolvers.Order, as: OrderResolver
 
-  import Absinthe.Resolution.Helpers, only: [dataloader: 1]
+  import Absinthe.Resolution.Helpers, only: [dataloader: 3, dataloader: 1]
 
   def context(ctx) do
-    loader = Dataloader.new() |> Dataloader.add_source(Accounts.Queries, Accounts.Queries.data())
+    loader = Dataloader.new() |> Dataloader.add_source(Lunch, Lunch.data())
 
     Map.put(ctx, :loader, loader)
   end
@@ -21,14 +21,18 @@ defmodule LunchWeb.Schema do
     field :id, non_null(:id)
     field :name, :string
     field :age, :integer
-    field :orders, list_of(:order), resolve: dataloader(Accounts.Queries)
+    field :orders, list_of(:order), resolve: dataloader(Lunch)
   end
 
   object :order do
     field :id, non_null(:id)
 
     field :customer, :user do
-      resolve(dataloader(Accounts.Queries))
+      resolve(dataloader(Lunch, :user, []))
+    end
+
+    field :products, list_of(:product) do
+      resolve(dataloader(Lunch))
     end
   end
 
@@ -60,6 +64,14 @@ defmodule LunchWeb.Schema do
       arg(:price, non_null(:integer))
 
       resolve(&ProductResolver.create/3)
+    end
+
+    @desc "Creates an order"
+    field :create_order, :order do
+      arg(:customer_id, non_null(:id))
+      arg(:products_ids, non_null(list_of(:id)))
+
+      resolve(&OrderResolver.create/3)
     end
   end
 end

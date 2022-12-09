@@ -18,6 +18,5 @@ defmodule Lunch.Sales.Product do
   def changeset(product, attrs) do
     product
     |> cast(attrs, [:name, :price])
-    |> validate_required([:name, :price])
   end
 end
