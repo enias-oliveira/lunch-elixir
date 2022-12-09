@@ -7,6 +7,7 @@ defmodule Lunch.Sales.Order do
 
   schema "orders" do
     belongs_to :user, Lunch.Accounts.User
+    many_to_many :products, Lunch.Sales.Product, join_through: "orders_products"
 
     timestamps()
   end

@@ -36,6 +36,13 @@ defmodule LunchWeb.Router do
   live "/orders/:id", OrderLive.Show, :show
   live "/orders/:id/show/edit", OrderLive.Show, :edit
 
+  live "/products", ProductLive.Index, :index
+  live "/products/new", ProductLive.Index, :new
+  live "/products/:id/edit", ProductLive.Index, :edit
+
+  live "/products/:id", ProductLive.Show, :show
+  live "/products/:id/show/edit", ProductLive.Show, :edit
+
   # Other scopes may use custom stacks.
   # scope "/api", LunchWeb do
   #   pipe_through :api
