@@ -8,6 +8,14 @@ defmodule Lunch.Sales do
 
   alias Lunch.Sales.Order
 
+  alias Lunch.Sales.Commands.CreateOrder
+
+  alias Lunch.Core
+
+  alias Lunch.Accounts
+
+  alias Lunch.Accounts.User
+
   @doc """
   Returns the list of orders.
 
@@ -50,9 +58,21 @@ defmodule Lunch.Sales do
 
   """
   def create_order(attrs \\ %{}) do
-    %Order{}
-    |> Order.changeset(attrs)
-    |> Repo.insert()
+    order = CreateOrder.new(Map.put(attrs, :uuid, Ecto.UUID.generate()))
+
+    dispatch_order = fn ->
+      order
+      |> Core.Application.dispatch(consistency: :strong)
+    end
+
+    with %Accounts.User{} <- Repo.get(User, order.customer_uuid),
+         :ok <- dispatch_order.(),
+         %Order{} = order <- Repo.get(Order, order.uuid) do
+      {:ok, order}
+    else
+      err ->
+        {:error, err}
+    end
   end
 
   @doc """

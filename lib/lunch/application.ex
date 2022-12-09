@@ -30,7 +30,10 @@ defmodule Lunch.Application do
       # {Lunch.Worker, arg}
 
       # Start Accounts Projector
-      Lunch.Accounts.Projectors.User
+      Lunch.Accounts.Projectors.User,
+
+      # Start Sales Projector
+      Lunch.Sales.Projectors.Order
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
