@@ -6,4 +6,13 @@ defmodule Lunch.Sales.Events do
       :customer_id
     ]
   end
+
+  defmodule ProductCreated do
+    @derive Jason.Encoder
+    defstruct [
+      :id,
+      :name,
+      :price
+    ]
+  end
 end

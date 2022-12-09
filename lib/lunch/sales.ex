@@ -6,9 +6,9 @@ defmodule Lunch.Sales do
   import Ecto.Query, warn: false
   alias Lunch.Repo
 
-  alias Lunch.Sales.Order
+  alias Lunch.Sales.{Order, Product}
 
-  alias Lunch.Sales.Commands.CreateOrder
+  alias Lunch.Sales.Commands.{CreateOrder, CreateProduct}
 
   alias Lunch.Core
 
@@ -166,9 +166,20 @@ defmodule Lunch.Sales do
 
   """
   def create_product(attrs \\ %{}) do
-    %Product{}
-    |> Product.changeset(attrs)
-    |> Repo.insert()
+    product = CreateProduct.new(Map.put(attrs, :id, Ecto.UUID.generate()))
+
+    dispatch_product = fn ->
+      product
+      |> Core.Application.dispatch(consistency: :strong)
+    end
+
+    with :ok <- dispatch_product.(),
+         %Product{} = product <- Repo.get(Product, product.id) do
+      {:ok, product}
+    else
+      err ->
+        {:error, err}
+    end
   end
 
   @doc """

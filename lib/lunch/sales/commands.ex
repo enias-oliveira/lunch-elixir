@@ -4,4 +4,10 @@ defmodule Lunch.Sales.Commands do
 
     use ExConstructor
   end
+
+  defmodule CreateProduct do
+    defstruct [:id, :name, :price]
+
+    use ExConstructor
+  end
 end

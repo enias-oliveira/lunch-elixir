@@ -22,4 +22,31 @@ defmodule Lunch.Sales.Aggregates do
       }
     end
   end
+
+  defmodule Product do
+    defstruct [
+      :id,
+      :name,
+      :price
+    ]
+
+    alias Lunch.Sales.Commands.CreateProduct
+    alias Lunch.Sales.Events.ProductCreated
+
+    def execute(%Product{}, %CreateProduct{} = command) do
+      %ProductCreated{
+        id: command.id,
+        name: command.name,
+        price: command.price
+      }
+    end
+
+    def apply(%Product{}, %ProductCreated{} = event) do
+      %Product{
+        id: event.id,
+        name: event.name,
+        price: event.price
+      }
+    end
+  end
 end
