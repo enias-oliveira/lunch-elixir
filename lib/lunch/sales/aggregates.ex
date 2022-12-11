@@ -3,7 +3,8 @@ defmodule Lunch.Sales.Aggregates do
     defstruct [
       :id,
       :customer_id,
-      :products_ids
+      :products_ids,
+      :status
     ]
 
     alias Lunch.Sales.Commands.CreateOrder
@@ -15,7 +16,8 @@ defmodule Lunch.Sales.Aggregates do
       %OrderCreated{
         id: command.id,
         customer_id: command.customer_id,
-        products_ids: command.products_ids
+        products_ids: command.products_ids,
+        status: command.status
       }
     end
 
@@ -23,7 +25,8 @@ defmodule Lunch.Sales.Aggregates do
       %Order{
         id: event.id,
         customer_id: event.customer_id,
-        products_ids: event.products_ids
+        products_ids: event.products_ids,
+        status: event.status
       }
     end
   end

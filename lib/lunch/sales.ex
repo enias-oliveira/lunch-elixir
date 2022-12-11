@@ -58,7 +58,7 @@ defmodule Lunch.Sales do
 
   """
   def create_order(attrs \\ %{}) do
-    order = CreateOrder.new(Map.put(attrs, :id, Ecto.UUID.generate()))
+    order = CreateOrder.new(Map.merge(attrs, %{id: Ecto.UUID.generate(), status: :pending}))
 
     dispatch_order = fn ->
       order

@@ -34,6 +34,8 @@ defmodule LunchWeb.Schema do
     field :products, list_of(:product) do
       resolve(dataloader(Lunch))
     end
+
+    field :status, :string
   end
 
   object :product do

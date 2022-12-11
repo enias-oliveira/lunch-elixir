@@ -8,6 +8,7 @@ defmodule Lunch.Sales.Order do
   schema "orders" do
     belongs_to :user, Lunch.Accounts.User
     many_to_many :products, Lunch.Sales.Product, join_through: Lunch.Sales.OrderProducts
+    field :status, Ecto.Enum, values: [:pending, :completed]
 
     timestamps()
   end
@@ -15,7 +16,7 @@ defmodule Lunch.Sales.Order do
   @doc false
   def changeset(order, attrs) do
     order
-    |> cast(attrs, [])
+    |> cast(attrs, [:status])
     |> cast_assoc(:products)
     |> validate_required([])
   end

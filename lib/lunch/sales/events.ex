@@ -4,7 +4,8 @@ defmodule Lunch.Sales.Events do
     defstruct [
       :id,
       :customer_id,
-      :products_ids
+      :products_ids,
+      :status
     ]
   end
 
