@@ -26,6 +26,8 @@ defmodule Lunch.Application do
       {Phoenix.PubSub, name: Lunch.PubSub},
       # Start the Endpoint (http/https)
       LunchWeb.Endpoint,
+      {Absinthe.Subscription, LunchWeb.Endpoint},
+
       # Start a worker by calling: Lunch.Worker.start_link(arg)
       # {Lunch.Worker, arg}
 

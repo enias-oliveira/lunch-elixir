@@ -10,6 +10,15 @@ defmodule Lunch.Sales.Commands do
     use ExConstructor
   end
 
+  defmodule UpdateOrderStatus do
+    defstruct [
+      :id,
+      :status
+    ]
+
+    use ExConstructor
+  end
+
   defmodule CreateProduct do
     defstruct [:id, :name, :price]
 

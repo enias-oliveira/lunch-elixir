@@ -8,7 +8,7 @@ defmodule Lunch.Sales do
 
   alias Lunch.Sales.{Order, Product}
 
-  alias Lunch.Sales.Commands.{CreateOrder, CreateProduct}
+  alias Lunch.Sales.Commands.{CreateOrder, CreateProduct, UpdateOrderStatus}
 
   alias Lunch.Core
 
@@ -95,6 +95,22 @@ defmodule Lunch.Sales do
     order
     |> Order.changeset(attrs)
     |> Repo.update()
+  end
+
+  def update_order_status_by_id(id, status) do
+    command = UpdateOrderStatus.new(%{id: id, status: status})
+
+    with {:is_order, %Order{} = order} <- {:is_order, Repo.get(Order, command.id)},
+         :ok <- Core.Application.dispatch(command, consistency: :strong),
+         %Order{} = order <- Repo.get(Order, order.id) do
+      {:ok, order}
+    else
+      err ->
+        {:error, err}
+
+      {:is_order, _} ->
+        {:error, :order_not_found}
+    end
   end
 
   @doc """

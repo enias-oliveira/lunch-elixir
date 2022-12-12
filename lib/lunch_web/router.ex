@@ -75,8 +75,9 @@ defmodule LunchWeb.Router do
 
       forward "/graphiql", Absinthe.Plug.GraphiQL,
         schema: LunchWeb.Schema,
-        interface: :simple,
-        context: %{pubsub: LunchWeb.Endpoint}
+        interface: :playground,
+        context: %{pubsub: LunchWeb.Endpoint},
+        socket: LunchWeb.OrderSocket
     end
   end
 end

@@ -44,6 +44,8 @@ defmodule LunchWeb.Schema do
     field :price, :float
   end
 
+  enum(:order_status, values: Ecto.Enum.values(Lunch.Sales.Order, :status))
+
   query do
     @desc "Get all users"
     field :all_users, list_of(:user) do
@@ -74,6 +76,25 @@ defmodule LunchWeb.Schema do
       arg(:products_ids, non_null(list_of(:id)))
 
       resolve(&OrderResolver.create/3)
+    end
+
+    @desc "Updates an order status"
+    field :update_order_status, :order do
+      arg(:order_id, non_null(:id))
+      arg(:status, non_null(:order_status))
+
+      resolve(&OrderResolver.update_status/3)
+    end
+  end
+
+  subscription do
+    @desc "Subscribe to order status changes"
+    field :order_status_changed, :order do
+      arg(:order_id, non_null(:id))
+
+      config(fn args, _ ->
+        {:ok, topic: args.order_id}
+      end)
     end
   end
 end

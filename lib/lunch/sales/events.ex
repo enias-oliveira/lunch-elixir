@@ -9,6 +9,14 @@ defmodule Lunch.Sales.Events do
     ]
   end
 
+  defmodule OrderStatusUpdated do
+    @derive Jason.Encoder
+    defstruct [
+      :id,
+      :status
+    ]
+  end
+
   defmodule ProductCreated do
     @derive Jason.Encoder
     defstruct [

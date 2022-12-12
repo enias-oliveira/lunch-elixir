@@ -7,10 +7,8 @@ defmodule Lunch.Sales.Aggregates do
       :status
     ]
 
-    alias Lunch.Sales.Commands.CreateOrder
-    alias Lunch.Sales.Events.OrderCreated
-
-    require Logger
+    alias Lunch.Sales.Commands.{CreateOrder, UpdateOrderStatus}
+    alias Lunch.Sales.Events.{OrderCreated, OrderStatusUpdated}
 
     def execute(%Order{}, %CreateOrder{} = command) do
       %OrderCreated{
@@ -21,11 +19,25 @@ defmodule Lunch.Sales.Aggregates do
       }
     end
 
+    def execute(%Order{id: id}, %UpdateOrderStatus{status: status}) do
+      %OrderStatusUpdated{
+        id: id,
+        status: status
+      }
+    end
+
     def apply(%Order{}, %OrderCreated{} = event) do
       %Order{
         id: event.id,
         customer_id: event.customer_id,
         products_ids: event.products_ids,
+        status: event.status
+      }
+    end
+
+    def apply(%Order{id: id}, %OrderStatusUpdated{} = event) do
+      %Order{
+        id: id,
         status: event.status
       }
     end

@@ -8,4 +8,8 @@ defmodule LunchWeb.Resolvers.Order do
   def create(_root, args, _info) do
     Sales.create_order(args)
   end
+
+  def update_status(_root, %{order_id: id, status: status}, _info) do
+    Sales.update_order_status_by_id(id, status)
+  end
 end

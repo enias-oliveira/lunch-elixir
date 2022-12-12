@@ -6,7 +6,7 @@ defmodule Lunch.Sales.Projectors.Order do
 
   require Logger
 
-  alias Lunch.Sales.Events.OrderCreated
+  alias Lunch.Sales.Events.{OrderCreated, OrderStatusUpdated}
   alias Lunch.Sales.Order
   alias Lunch.Sales.Product
   alias Lunch.Repo
@@ -29,4 +29,19 @@ defmodule Lunch.Sales.Projectors.Order do
       Ecto.Multi.insert(multi, :order, order)
     end
   )
+
+  project(%OrderStatusUpdated{id: id, status: status}, fn multi ->
+    changeset =
+      Repo.get!(Order, id)
+      |> Ecto.Changeset.change(status: String.to_atom(status))
+
+    Ecto.Multi.update(multi, :order, changeset)
+  end)
+
+  @impl Commanded.Projections.Ecto
+  def after_update(%OrderStatusUpdated{}, _metadata, %{order: order}) do
+    Absinthe.Subscription.publish(LunchWeb.Endpoint, order, order_status_changed: order.id)
+
+    :ok
+  end
 end

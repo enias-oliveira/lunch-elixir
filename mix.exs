@@ -53,9 +53,10 @@ defmodule Lunch.MixProject do
       {:commanded_eventstore_adapter, "~> 1.4"},
       {:exconstructor, "~> 1.2.7"},
       {:commanded_ecto_projections, "~> 1.3"},
-      {:absinthe, "~> 1.6"},
+      {:absinthe, "~> 1.7"},
       {:absinthe_plug, "~> 1.5"},
-      {:dataloader, "~> 1.0.0"}
+      {:dataloader, "~> 1.0.0"},
+      {:absinthe_phoenix, "~> 2.0.0"}
     ]
   end
 
