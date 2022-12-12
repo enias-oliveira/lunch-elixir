@@ -34,6 +34,7 @@
 
 
 <%= if @live_action == :modal do %>
-  <.modal title="Add Product to Order">
+  <.modal title="Failed to add Product to Order">
+  <.alert color="danger" label="This order is completed and cannot be updated" />
   </.modal>
 <% end %>

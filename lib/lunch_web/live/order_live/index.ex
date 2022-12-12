@@ -77,8 +77,8 @@ defmodule LunchWeb.OrderLive.Index do
       {:ok, _} ->
         {:noreply, assign(socket, :orders, list_orders())}
 
-      {:error, message} ->
-        {:noreply, socket |> assign(:error, message)}
+      {:error, "Order is already completed"} ->
+        {:noreply, push_patch(socket, to: Routes.order_index_path(socket, :modal))}
     end
   end
 

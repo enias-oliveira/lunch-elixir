@@ -42,7 +42,9 @@
     </div>
 
     <.card_footer>
+    <%= if @order.status == :pending do %>
     <.button color="secondary" label="Complete Order" phx-click="complete" value={@order.id} />
+    <% end %>
     </.card_footer>
 </.card>
 </div>
