@@ -41,7 +41,9 @@ defmodule LunchWeb.UserLive.FormComponent do
   end
 
   defp save_user(socket, :new, user_params) do
-    case Accounts.create_user(user_params) do
+    {parsed_age, _} = Integer.parse(user_params["age"])
+
+    case Accounts.create_user(%{user_params | "age" => parsed_age}) do
       {:ok, _user} ->
         {:noreply,
          socket

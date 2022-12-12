@@ -1,7 +1,20 @@
-<h1>Listing Users</h1>
+<header aria-label="Page Header">
+  <div class="mx-auto max-w-screen-xl py-8 sm:py-12">
+    <div class="sm:flex sm:items-center sm:justify-between">
+      <div class="text-center sm:text-left">
+        <.h1>Users</.h1>
+      </div>
+
+      <div class="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center">
+        <.button link_type="live_patch" to={Routes.user_index_path(@socket, :new)} label="New User" />
+      </div>
+    </div>
+  </div>
+</header>
+
 
 <%= if @live_action in [:new, :edit] do %>
-  <.modal return_to={Routes.user_index_path(@socket, :index)}>
+  <.modal title="Users">
     <.live_component
       module={LunchWeb.UserLive.FormComponent}
       id={@user.id || :new}
@@ -13,29 +26,29 @@
   </.modal>
 <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Age</th>
+<.table>
+    <.tr>
+      <.th>ID</.th>
+      <.th>Name</.th>
+      <.th>Age</.th>
 
-      <th></th>
-    </tr>
-  </thead>
+      <.th></.th>
+    </.tr>
+
   <tbody id="users">
     <%= for user <- @users do %>
-      <tr id={"user-#{user.id}"}>
-        <td><%= user.name %></td>
-        <td><%= user.age %></td>
+      <.tr id={"user-#{user.id}"}>
+        <.td><%= user.id %></.td>
+        <.td><%= user.name %></.td>
+        <.td><%= user.age %></.td>
 
-        <td>
+        <.td>
           <span><%= live_redirect "Show", to: Routes.user_show_path(@socket, :show, user) %></span>
           <span><%= live_patch "Edit", to: Routes.user_index_path(@socket, :edit, user) %></span>
           <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: user.id, data: [confirm: "Are you sure?"] %></span>
-        </td>
-      </tr>
+        </.td>
+      </.tr>
     <% end %>
   </tbody>
-</table>
+</.table>
 
-<span><%= live_patch "New User", to: Routes.user_index_path(@socket, :new) %></span>

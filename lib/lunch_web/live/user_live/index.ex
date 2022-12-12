@@ -6,7 +6,10 @@ defmodule LunchWeb.UserLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :users, list_users())}
+    {:ok,
+     socket
+     |> assign(:users, Accounts.list_users())
+     |> assign(:page_title2, "Listing Users - Lunch")}
   end
 
   @impl true
@@ -38,6 +41,11 @@ defmodule LunchWeb.UserLive.Index do
     {:ok, _} = Accounts.delete_user(user)
 
     {:noreply, assign(socket, :users, list_users())}
+  end
+
+  @impl true
+  def handle_event("close_modal", _, socket) do
+    {:noreply, push_patch(socket, to: Routes.user_index_path(socket, :index))}
   end
 
   defp list_users do

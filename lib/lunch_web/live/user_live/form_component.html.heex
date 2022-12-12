@@ -8,17 +8,15 @@
     phx-target={@myself}
     phx-change="validate"
     phx-submit="save">
-  
-    <%= label f, :name %>
-    <%= text_input f, :name %>
-    <%= error_tag f, :name %>
-  
-    <%= label f, :age %>
-    <%= number_input f, :age %>
-    <%= error_tag f, :age %>
-  
+
+  <.form_field type="text_input" form={f} field={:name} />
+  <.form_field type="number_input" form={f} field={:age} />
+
     <div>
-      <%= submit "Save", phx_disable_with: "Saving..." %>
+      <.button
+      type="submit"
+      label="Save"
+      phx-disable-with="Saving..." />
     </div>
   </.form>
 </div>
