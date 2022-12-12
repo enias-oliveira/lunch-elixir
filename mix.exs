@@ -57,7 +57,8 @@ defmodule Lunch.MixProject do
       {:absinthe_plug, "~> 1.5"},
       {:dataloader, "~> 1.0.0"},
       {:absinthe_phoenix, "~> 2.0.0"},
-      {:tailwind, "~> 0.1.8", runtime: Mix.env() == :dev}
+      {:tailwind, "~> 0.1.8", runtime: Mix.env() == :dev},
+      {:petal_components, "~> 0.17"}
     ]
   end
 

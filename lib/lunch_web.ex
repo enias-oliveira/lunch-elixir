@@ -89,6 +89,9 @@ defmodule LunchWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
+      # Import Petal Components to be called anywhere in views
+      use PetalComponents
+
       # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
       import Phoenix.LiveView.Helpers
       import LunchWeb.LiveHelpers
