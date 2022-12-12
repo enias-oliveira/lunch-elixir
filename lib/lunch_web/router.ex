@@ -29,6 +29,7 @@ defmodule LunchWeb.Router do
     live "/orders", OrderLive.Index, :index
     live "/orders/new", OrderLive.Index, :new
     live "/orders/:id/edit", OrderLive.Index, :edit
+    live "/modal", OrderLive.Index, :modal
 
     live "/orders/:id", OrderLive.Show, :show
     live "/orders/:id/show/edit", OrderLive.Show, :edit

@@ -12,6 +12,35 @@
     <.p>Status: <.badge color={ if @order.status == :pending, do: "warning", else: "success" } label={@order.status} /> </.p>
     </.card_content>
 
+    <div class="p-5" >
+    <.form let={fp} for={:add_product}
+    id="add-product-form"
+    phx-change="validate"
+    phx-submit="add_product">
+
+    <.form_field
+    type="text_input"
+    label="Product ID"
+    form={fp}
+    field={:product_id}
+    placeholder="Enter Product ID"
+    />
+
+    <%= hidden_input fp, :order_id, value: @order.id %>
+
+
+    <div>
+      <.button
+      type="submit"
+      color="info"
+      label="Add Product"
+        phx-value-order-id={@order.id}
+      phx-disable-with="Saving..." />
+    </div>
+
+    </.form>
+    </div>
+
     <.card_footer>
     <.button color="secondary" label="Complete Order" phx-click="complete" value={@order.id} />
     </.card_footer>

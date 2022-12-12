@@ -27,6 +27,7 @@
 
 <.table>
     <.tr>
+      <.th>ID</.th>
       <.th>Name</.th>
       <.th>Price</.th>
 
@@ -36,6 +37,7 @@
   <tbody id="products">
     <%= for product <- @products do %>
       <.tr id={"product-#{product.id}"}>
+        <.td><%= product.id %></.td>
         <.td><%= product.name %></.td>
         <.td><%= product.price %></.td>
 

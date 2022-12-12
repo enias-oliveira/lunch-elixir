@@ -34,6 +34,10 @@ defmodule LunchWeb.OrderLive.Index do
     |> assign(:order, nil)
   end
 
+  defp apply_action(socket, :modal, _params) do
+    socket
+  end
+
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
     order = Sales.get_order!(id)
@@ -52,6 +56,30 @@ defmodule LunchWeb.OrderLive.Index do
     Lunch.Sales.update_order_status_by_id(id, :completed)
 
     {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("validate", %{"add_product" => params}, socket) do
+    case params["product_id"] do
+      "" ->
+        {:noreply, socket}
+
+      product_id ->
+        {:noreply, socket |> assign(:product_id, product_id)}
+    end
+  end
+
+  @impl true
+  def handle_event("add_product", %{"add_product" => params}, socket) do
+    IO.inspect(params)
+
+    case Sales.add_product_to_order(%{id: params["order_id"], product_id: params["product_id"]}) do
+      {:ok, _} ->
+        {:noreply, assign(socket, :orders, list_orders())}
+
+      {:error, message} ->
+        {:noreply, socket |> assign(:error, message)}
+    end
   end
 
   @impl true
