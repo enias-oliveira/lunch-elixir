@@ -20,7 +20,7 @@ defmodule Lunch.Accounts do
       [%User{}, ...]
 
   """
-  def list_users, do: {:ok, Repo.all(User)}
+  def list_users, do: Repo.all(User)
 
   @doc """
   Gets a single user.
