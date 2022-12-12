@@ -71,11 +71,11 @@ defmodule Lunch.Sales do
          %Order{} = order <- Repo.get(Order, order.id) do
       {:ok, order}
     else
+      {:is_products, false} ->
+        {:error, :products_not_found}
+
       err ->
         {:error, err}
-
-      {:is_products, _} ->
-        {:error, :products_not_found}
     end
   end
 
@@ -100,16 +100,16 @@ defmodule Lunch.Sales do
   def update_order_status_by_id(id, status) do
     command = UpdateOrderStatus.new(%{id: id, status: status})
 
-    with {:is_order, %Order{} = order} <- {:is_order, Repo.get(Order, command.id)},
+    with {:is_order, true} <- {:is_order, !!Repo.get(Order, command.id)},
          :ok <- Core.Application.dispatch(command, consistency: :strong),
-         %Order{} = order <- Repo.get(Order, order.id) do
+         %Order{} = order <- Repo.get(Order, id) do
       {:ok, order}
     else
+      {:is_order, false} ->
+        {:error, :order_not_found}
+
       err ->
         {:error, err}
-
-      {:is_order, _} ->
-        {:error, :order_not_found}
     end
   end
 
