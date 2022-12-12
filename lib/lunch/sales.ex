@@ -36,7 +36,7 @@ defmodule Lunch.Sales do
 
   """
   def list_orders do
-    Repo.all(Order)
+    Repo.all(Order) |> Repo.preload([:user, :products])
   end
 
   @doc """

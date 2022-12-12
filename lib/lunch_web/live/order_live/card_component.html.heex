@@ -1,6 +1,14 @@
 <div>
 <.card>
     <.card_content heading={"Order: #{@order.id}"} >
+    <.h5>Customer: <%= @order.user.name %></.h5>
+
+    <%= for product <- @order.products do  %>
+        <.ul class="mb-5" >
+            <li> <%= product.name %> - R$ <%= product.price %> </li>
+        </.ul>
+    <% end %>
+
     <.p>Status: <.badge color={ if @order.status == :pending, do: "warning", else: "success" } label={@order.status} /> </.p>
     </.card_content>
 
