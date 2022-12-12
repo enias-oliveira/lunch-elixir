@@ -1,16 +1,22 @@
 defmodule LunchWeb.OrderLive.FormComponent do
   use LunchWeb, :live_component
 
-  alias Lunch.Sales
+  alias Lunch.{Accounts, Sales}
 
   @impl true
   def update(%{order: order} = assigns, socket) do
     changeset = Sales.change_order(order)
+    users = Enum.map(Accounts.list_users(), fn user -> {user.name, user.id} end)
+    products = Enum.map(Sales.list_products(), fn product -> {product.name, product.id} end)
 
     {:ok,
      socket
      |> assign(assigns)
-     |> assign(:changeset, changeset)}
+     |> assign(:changeset, changeset)
+     |> assign(:users_options, users)
+     |> assign(:products_options, products)
+     |> assign(:products_selection, %{selected_product_id: nil})
+     |> assign(:selected_products, [%{name: "Frango", value: 1}])}
   end
 
   @impl true

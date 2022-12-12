@@ -2,7 +2,7 @@ defmodule LunchWeb.Resolvers.UsersResolver do
   alias Lunch.Accounts
 
   def get_all(_root, _args, _info) do
-    Accounts.list_users()
+    {:ok, Accounts.list_users()}
   end
 
   def create(_root, args, _info) do

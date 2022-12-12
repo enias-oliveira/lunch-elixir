@@ -1,6 +1,4 @@
 <div>
-  <h2><%= @title %></h2>
-
   <.form
     let={f}
     for={@changeset}
@@ -8,9 +6,30 @@
     phx-target={@myself}
     phx-change="validate"
     phx-submit="save">
-  
+
+
+  <.form_field
+  type="select"
+  options={@users_options}
+  form={f}
+  field={:customer_id}
+  label="Customer"
+  />
+
+  <.form_field
+  type="checkbox_group"
+  options={@products_options}
+  form={f}
+  field={:products_ids}
+  label="Products"
+  />
+
     <div>
-      <%= submit "Save", phx_disable_with: "Saving..." %>
+      <.button
+      type="submit"
+      label="Save"
+      phx-disable-with="Saving..." />
     </div>
+
   </.form>
 </div>
