@@ -16,6 +16,16 @@ defmodule Lunch.Sales do
 
   alias Lunch.Accounts.User
 
+  @topic inspect(__MODULE__)
+
+  def subscribe_to_orders() do
+    Phoenix.PubSub.subscribe(Lunch.PubSub, @topic)
+  end
+
+  def notify_order_status_updated(order) do
+    Phoenix.PubSub.broadcast(Lunch.PubSub, @topic, {:order_status_changed, order.id})
+  end
+
   @doc """
   Returns the list of orders.
 

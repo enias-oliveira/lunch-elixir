@@ -1,0 +1,11 @@
+<div>
+<.card>
+    <.card_content heading={"Order: #{@order.id}"} >
+    <.p>Status: <.badge color={ if @order.status == :pending, do: "warning", else: "success" } label={@order.status} /> </.p>
+    </.card_content>
+
+    <.card_footer>
+    <.button color="secondary" label="Complete Order" phx-click="complete" value={@order.id} />
+    </.card_footer>
+</.card>
+</div>

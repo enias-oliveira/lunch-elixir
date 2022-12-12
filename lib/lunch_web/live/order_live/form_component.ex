@@ -14,9 +14,7 @@ defmodule LunchWeb.OrderLive.FormComponent do
      |> assign(assigns)
      |> assign(:changeset, changeset)
      |> assign(:users_options, users)
-     |> assign(:products_options, products)
-     |> assign(:products_selection, %{selected_product_id: nil})
-     |> assign(:selected_products, [%{name: "Frango", value: 1}])}
+     |> assign(:products_options, products)}
   end
 
   @impl true

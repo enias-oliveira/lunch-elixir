@@ -25,26 +25,9 @@
   </.modal>
 <% end %>
 
-<.table>
-    <.tr>
-      <.th>ID</.th>
-      <.th>Status</.th>
 
-      <.th></.th>
-    </.tr>
-
-  <tbody id="orders">
+  <div class="grid grid-cols-2 gap-2 w-full" >
     <%= for order <- @orders do %>
-      <.tr id={"order-#{order.id}"}>
-        <.td><%= order.id %></.td>
-        <.td><%= order.status %></.td>
-
-        <.td>
-          <span><%= live_redirect "Show", to: Routes.order_show_path(@socket, :show, order) %></span>
-          <span><%= live_patch "Edit", to: Routes.order_index_path(@socket, :edit, order) %></span>
-          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: order.id, data: [confirm: "Are you sure?"] %></span>
-        </.td>
-      </.tr>
+      <.live_component module={LunchWeb.OrderLive.CardComponent} id={order.id <> "card"} order={order} />
     <% end %>
-  </tbody>
-</.table>
+  </div>

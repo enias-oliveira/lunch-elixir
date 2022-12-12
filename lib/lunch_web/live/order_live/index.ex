@@ -6,6 +6,8 @@ defmodule LunchWeb.OrderLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
+    Lunch.Sales.subscribe_to_orders()
+
     {:ok, assign(socket, :orders, list_orders())}
   end
 
@@ -43,6 +45,18 @@ defmodule LunchWeb.OrderLive.Index do
   @impl true
   def handle_event("close_modal", _, socket) do
     {:noreply, push_patch(socket, to: Routes.order_index_path(socket, :index))}
+  end
+
+  @impl true
+  def handle_event("complete", %{"value" => id}, socket) do
+    Lunch.Sales.update_order_status_by_id(id, :completed)
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info({:order_status_changed, _}, socket) do
+    {:noreply, assign(socket, :orders, list_orders())}
   end
 
   defp list_orders do

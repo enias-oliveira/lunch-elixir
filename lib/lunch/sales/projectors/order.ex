@@ -54,6 +54,8 @@ defmodule Lunch.Sales.Projectors.Order do
   def after_update(%OrderStatusUpdated{}, _metadata, %{order: order}) do
     Absinthe.Subscription.publish(LunchWeb.Endpoint, order, order_status_changed: order.id)
 
+    Lunch.Sales.notify_order_status_updated(order)
+
     :ok
   end
 
