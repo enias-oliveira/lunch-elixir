@@ -1,7 +1,19 @@
-<h1>Listing Products</h1>
+<header aria-label="Page Header">
+  <div class="mx-auto max-w-screen-xl py-8 sm:py-12">
+    <div class="sm:flex sm:items-center sm:justify-between">
+      <div class="text-center sm:text-left">
+        <.h1>Products</.h1>
+      </div>
+
+      <div class="mt-4 flex flex-col gap-4 sm:mt-0 sm:flex-row sm:items-center">
+        <.button link_type="live_patch" to={Routes.product_index_path(@socket, :new)} label="Create Product" />
+      </div>
+    </div>
+  </div>
+</header>
 
 <%= if @live_action in [:new, :edit] do %>
-  <.modal return_to={Routes.product_index_path(@socket, :index)}>
+  <.modal title="New Product">
     <.live_component
       module={LunchWeb.ProductLive.FormComponent}
       id={@product.id || :new}
@@ -13,29 +25,26 @@
   </.modal>
 <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Price</th>
+<.table>
+    <.tr>
+      <.th>Name</.th>
+      <.th>Price</.th>
 
-      <th></th>
-    </tr>
-  </thead>
+      <.th></.th>
+    </.tr>
+
   <tbody id="products">
     <%= for product <- @products do %>
-      <tr id={"product-#{product.id}"}>
-        <td><%= product.name %></td>
-        <td><%= product.price %></td>
+      <.tr id={"product-#{product.id}"}>
+        <.td><%= product.name %></.td>
+        <.td><%= product.price %></.td>
 
-        <td>
+        <.td>
           <span><%= live_redirect "Show", to: Routes.product_show_path(@socket, :show, product) %></span>
           <span><%= live_patch "Edit", to: Routes.product_index_path(@socket, :edit, product) %></span>
           <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: product.id, data: [confirm: "Are you sure?"] %></span>
-        </td>
-      </tr>
+        </.td>
+      </.tr>
     <% end %>
   </tbody>
-</table>
-
-<span><%= live_patch "New Product", to: Routes.product_index_path(@socket, :new) %></span>
+</.table>

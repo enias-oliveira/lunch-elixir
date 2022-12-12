@@ -41,7 +41,10 @@ defmodule LunchWeb.ProductLive.FormComponent do
   end
 
   defp save_product(socket, :new, product_params) do
-    case Sales.create_product(product_params) do
+    {parsed_price, _} = Integer.parse(product_params["price"])
+    parsed_params = Map.put(product_params, "price", parsed_price)
+
+    case Sales.create_product(parsed_params) do
       {:ok, _product} ->
         {:noreply,
          socket

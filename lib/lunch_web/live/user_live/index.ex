@@ -6,10 +6,7 @@ defmodule LunchWeb.UserLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok,
-     socket
-     |> assign(:users, Accounts.list_users())
-     |> assign(:page_title2, "Listing Users - Lunch")}
+    {:ok, assign(socket, :users, Accounts.list_users())}
   end
 
   @impl true

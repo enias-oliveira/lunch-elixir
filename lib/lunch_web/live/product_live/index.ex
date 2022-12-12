@@ -40,6 +40,11 @@ defmodule LunchWeb.ProductLive.Index do
     {:noreply, assign(socket, :products, list_products())}
   end
 
+  @impl true
+  def handle_event("close_modal", _, socket) do
+    {:noreply, push_patch(socket, to: Routes.product_index_path(socket, :index))}
+  end
+
   defp list_products do
     Sales.list_products()
   end
