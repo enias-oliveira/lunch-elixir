@@ -12,6 +12,7 @@ defmodule Lunch.Accounts.User do
     field :name, :string
 
     has_many :orders, Sales.Order
+    has_many :products, through: [:orders, :products]
 
     timestamps()
   end

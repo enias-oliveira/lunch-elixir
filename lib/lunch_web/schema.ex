@@ -22,6 +22,7 @@ defmodule LunchWeb.Schema do
     field :name, :string
     field :age, :integer
     field :orders, list_of(:order), resolve: dataloader(Lunch)
+    field :products, list_of(:product), resolve: dataloader(Lunch)
   end
 
   object :order do
