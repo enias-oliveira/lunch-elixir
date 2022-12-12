@@ -8,7 +8,7 @@ defmodule Lunch.Sales do
 
   alias Lunch.Sales.{Order, Product}
 
-  alias Lunch.Sales.Commands.{CreateOrder, CreateProduct, UpdateOrderStatus}
+  alias Lunch.Sales.Commands.{CreateOrder, CreateProduct, UpdateOrderStatus, AddProductToOrder}
 
   alias Lunch.Core
 
@@ -140,6 +140,26 @@ defmodule Lunch.Sales do
   """
   def change_order(%Order{} = order, attrs \\ %{}) do
     Order.changeset(order, attrs)
+  end
+
+  def add_product_to_order(attrs \\ %{}) do
+    command = AddProductToOrder.new(attrs)
+
+    with {:is_order, true} <- {:is_order, !!Repo.get(Order, command.id)},
+         {:is_product, true} <- {:is_product, !!Repo.get(Product, command.product_id)},
+         :ok <- Core.Application.dispatch(command, consistency: :strong),
+         %Order{} = order <- Repo.get(Order, command.id) do
+      {:ok, order}
+    else
+      {:is_order, false} ->
+        {:error, :order_not_found}
+
+      {:is_product, false} ->
+        {:error, :product_not_found}
+
+      {:error, err} ->
+        {:error, err}
+    end
   end
 
   alias Lunch.Sales.Product

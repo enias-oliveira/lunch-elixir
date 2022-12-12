@@ -24,4 +24,10 @@ defmodule Lunch.Sales.Commands do
 
     use ExConstructor
   end
+
+  defmodule AddProductToOrder do
+    defstruct [:id, :product_id]
+
+    use ExConstructor
+  end
 end

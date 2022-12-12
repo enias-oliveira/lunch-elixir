@@ -5,7 +5,7 @@ defmodule Lunch.Core.Router do
   alias Lunch.Accounts.Commands.RegisterUser
 
   alias Lunch.Sales.Aggregates.{Order, Product}
-  alias Lunch.Sales.Commands.{CreateOrder, CreateProduct, UpdateOrderStatus}
+  alias Lunch.Sales.Commands.{CreateOrder, CreateProduct, UpdateOrderStatus, AddProductToOrder}
 
   identify(User, by: :id, prefix: "user-")
   identify(Order, by: :id, prefix: "order-")
@@ -15,4 +15,5 @@ defmodule Lunch.Core.Router do
   dispatch(CreateOrder, to: Order)
   dispatch(CreateProduct, to: Product)
   dispatch(UpdateOrderStatus, to: Order)
+  dispatch(AddProductToOrder, to: Order)
 end

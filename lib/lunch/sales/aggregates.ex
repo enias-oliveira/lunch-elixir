@@ -7,8 +7,8 @@ defmodule Lunch.Sales.Aggregates do
       :status
     ]
 
-    alias Lunch.Sales.Commands.{CreateOrder, UpdateOrderStatus}
-    alias Lunch.Sales.Events.{OrderCreated, OrderStatusUpdated}
+    alias Lunch.Sales.Commands.{CreateOrder, UpdateOrderStatus, AddProductToOrder}
+    alias Lunch.Sales.Events.{OrderCreated, OrderStatusUpdated, ProductAddedToOrder}
 
     def execute(%Order{}, %CreateOrder{} = command) do
       %OrderCreated{
@@ -26,19 +26,43 @@ defmodule Lunch.Sales.Aggregates do
       }
     end
 
-    def apply(%Order{}, %OrderCreated{} = event) do
+    def execute(%Order{status: current_status}, %AddProductToOrder{
+          id: order_id,
+          product_id: product_id
+        }) do
+      case current_status do
+        :completed ->
+          {:error, "Order is already completed"}
+
+        :pending ->
+          %ProductAddedToOrder{
+            order_id: order_id,
+            product_id: product_id
+          }
+      end
+    end
+
+    def apply(%Order{} = order, %OrderCreated{} = event) do
       %Order{
-        id: event.id,
-        customer_id: event.customer_id,
-        products_ids: event.products_ids,
-        status: event.status
+        order
+        | id: event.id,
+          customer_id: event.customer_id,
+          products_ids: event.products_ids,
+          status: event.status
       }
     end
 
-    def apply(%Order{id: id}, %OrderStatusUpdated{} = event) do
+    def apply(%Order{} = order, %OrderStatusUpdated{} = event) do
       %Order{
-        id: id,
-        status: event.status
+        order
+        | status: event.status
+      }
+    end
+
+    def apply(%Order{products_ids: products_ids} = order, %ProductAddedToOrder{} = event) do
+      %Order{
+        order
+        | products_ids: [event.product_id | products_ids]
       }
     end
   end

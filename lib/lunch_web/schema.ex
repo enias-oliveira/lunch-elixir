@@ -85,6 +85,14 @@ defmodule LunchWeb.Schema do
 
       resolve(&OrderResolver.update_status/3)
     end
+
+    @desc "Add a product to an existing order"
+    field :add_product_to_order, :order do
+      arg(:order_id, non_null(:id))
+      arg(:product_id, non_null(:id))
+
+      resolve(&OrderResolver.add_product/3)
+    end
   end
 
   subscription do
